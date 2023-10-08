@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, Form } from 'react-router-dom';
+import FormInput from '../components/FormInput';
 import register from '../assets/register.jpg'
 import '../assets/styles/login.css'
 import { AiOutlineEye, AiOutlineEyeInvisible } from 'react-icons/ai'
@@ -10,7 +11,6 @@ const Register = () => {
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
   const [cPassword, setCPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
 
   const [showPassword, setShowPassword] = useState (false);
   const [showInstructions, setShowInstructions] = useState (false);
@@ -75,52 +75,41 @@ const Register = () => {
     }
   }, [pass, passLetter, passNumber, passChar, passLength])
   return (
-    <>
-    {isLoading && <Loader />}
+    <Form method='post'>
     <h1 className='banner text-center mt-2'>Register</h1>
       <div className='grid grid-cols-1 lg:grid-cols-2'>
-        <img id="img-container" className='object-cover' src={register} alt="car" style={{
-                  backgroundSize: "cover",
+        <div className='img-container'>
+          <img className='object-cover' src={register} alt="cat" style={{
+                      backgroundSize: "cover",
           }}/>
+        </div>
         <div className='form-container mb-5'>
           <div className='outer'>
-            <form className='form-control inner py-4'>
+            <div className='auth-form form-control inner py-4'>
             <h1 className='banner text-center'>Register</h1>
                 <div className="mb-1">
-                  <input
-                    type="email"
-                    placeholder="Email"
-                    required value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring"
-                  />
+                  <FormInput type='email' label='Email' name='email' required value={email} 
+                     onChange={(e) => setEmail(e.target.value)}/>
                 </div>
                 <div className="mb-1 password">
-                  <input
-                    type={showPassword ? "text" : "password"}
-                    placeholder="Password"
+                <FormInput type={showPassword ? "text" : "password"}
+                    label='Password'
                     onFocus={handleShowInstructions}
-                    className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring"
                     required value={password}
                     onChange={handlePasswordChange}
-                  />
-                  <span className='icon' onClick={togglePassword}>
-                    {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible /> }
-                  </span>
-                  <input
-                    type="password"
-                    placeholder="Confirm Password"
-                    className="w-full px-3 py-2 placeholder-gray-300 border border-gray-300 rounded-md focus:outline-none focus:ring"
-                    required value={cPassword}
-                    onChange={(e) => setCPassword(e.target.value)}
-                  />
-                  <span className='icon' onClick={toggleCPassword}>
-                    {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible /> }
-                  </span>
+                 />
+                    <span className='icon' onClick={togglePassword}>
+                      {showPassword ? <AiOutlineEye /> : <AiOutlineEyeInvisible /> }
+                    </span>
+                  </div>
+                  <div className="mb-1 confirm-password">
+                  <FormInput type={showPassword ? "text" : "password"} label='Confirm Password' 
+                    name='password' required value={cPassword} onChange={(e) => setCPassword(e.target.value)}
+                    />
                 </div>
                 <button disabled={!passComplete} type="submit"
-                className={passComplete ? "mb-6 mt-2 w-full px-7 py-3 bg-blue-600 text-white text-sm uppercase rounded" :
-                "mb-6 mt-2 w-full px-7 py-3 bg-gray-500 disabled text-white text-sm uppercase rounded"}
+                  className={passComplete ? "mb-6 mt-2 w-full px-7 py-3 bg-blue-600 text-white text-sm uppercase rounded" :
+                  "mb-6 mt-2 w-full px-7 py-3 bg-gray-500 disabled text-white text-sm uppercase rounded"}
                 >Sign Up</button>
                 <div className='flex'>
                   <p className='pr-2'>Already have an account?</p><Link to="/login" className='register'>
@@ -159,11 +148,11 @@ const Register = () => {
                   </ul>
                 </div>
               </div>
-            </form>
+            </div>
           </div>
         </div>
       </div>
-    </>
+    </Form>
   )
 }
 
