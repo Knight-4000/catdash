@@ -11,8 +11,10 @@ const themes = {
 };
 
 const getThemeFromLocalStorage = () => {
-    return localStorage.getItem('theme') || themes.aqua;
-}
+    const theme = localStorage.getItem('theme') || themes.winter;
+    document.documentElement.setAttribute('data-theme', theme);
+    return theme;
+  };
 
 export default function Navbar() {
     const [theme, setTheme] = useState(getThemeFromLocalStorage);
@@ -26,7 +28,10 @@ export default function Navbar() {
     useEffect(() =>{
         document.documentElement.setAttribute('data-theme', theme);
         localStorage.setItem('theme', theme);
-    }, [theme])
+    }, [theme]);
+
+    const isDarkTheme = theme === 'synthwave';
+
 
   return (
     <nav className="bg-base-200">
@@ -56,9 +61,9 @@ export default function Navbar() {
             </div>
             <div className='navbar-end'>
                 <label className='swap swap-rotate'>
-                    <input type='checkbox' onChange={handleTheme} />
-                    <BsSunFill className='swap-on h-4 w-4' />
-                    <BsMoonFill className='swap-off h-4 w-4' />
+                    <input type='checkbox' onChange={handleTheme} defaultChecked={isDarkTheme}/>
+                        <BsSunFill className='swap-on h-4 w-4' />
+                        <BsMoonFill className='swap-off h-4 w-4' />                  
                 </label>
                 <NavLink to ='/cart' className='btn btn-ghost btn-circle btn-md ml-4'>
                     <div className='indicator'>
