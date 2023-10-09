@@ -3,14 +3,31 @@ import { GiHamburgerMenu } from 'react-icons/gi';
 import { AiOutlineCloseCircle } from 'react-icons/ai';
 import { NavLink } from 'react-router-dom';
 import NavLinks from './NavLinks';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+const themes = { 
+    synthwave: 'synthwave',
+    aqua: 'aqua',
+};
+
+const getThemeFromLocalStorage = () => {
+    return localStorage.getItem('theme') || themes.aqua;
+}
 
 export default function Navbar() {
-    const [theme, setTheme] = useState(false);
+    const [theme, setTheme] = useState(getThemeFromLocalStorage);
 
     const handleTheme = () => {
-        setTheme(!theme);
+        const { aqua, synthwave} = themes;
+        const newTheme = theme === aqua ? synthwave : aqua;
+        setTheme(newTheme);
     }
+
+    useEffect(() =>{
+        document.documentElement.setAttribute('data-theme', theme);
+        localStorage.setItem('theme', theme);
+    }, [theme])
+
   return (
     <nav className="bg-base-200">
       <div className="navbar align-element">
